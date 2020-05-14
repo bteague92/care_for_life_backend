@@ -7,7 +7,8 @@ module.exports = {
     findById,
     update,
     remove,
-    findIndividualDetails
+    findIndividualDetails,
+    findByFamilyId
 };
 
 async function find() {
@@ -27,6 +28,10 @@ async function add(individual) {
 
 function findById(id) {
     return db('individuals').where('id', id).select("id", "name", "gender", 'age', 'family_id').first();
+}
+
+function findByFamilyId(id) {
+    return db('individuals').where('family_id', id).select("id", "name", "gender", 'age', 'family_id');
 }
 
 function update(id, changes) {

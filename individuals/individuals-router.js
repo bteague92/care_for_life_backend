@@ -31,6 +31,25 @@ router.get('/:id', (req, res) => {
     }
 })
 
+router.get('/family/:id', (req, res) => {
+    const id = req.params.id;
+    if (id) {
+        Individuals.findByFamilyId(id)
+            .then(individuals => {
+                if (individuals == undefined) {
+                    res.status(404).json({ message: 'could not find individuals' })
+                }
+                res.status(200).json(individuals);
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(500).json({ message: 'could not find individuals' })
+            })
+    } else {
+        res.status(404).json({ message: 'No such individuals' });
+    }
+})
+
 router.post('/', (req, res) => {
     const individual = req.body;
     Individuals.add(individual)

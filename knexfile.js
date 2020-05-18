@@ -1,18 +1,21 @@
-// Update with your config settings.
+require('dotenv').config();
 
 module.exports = {
 
   development: {
-    client: 'sqlite3',
+    client: 'pg',
     connection: {
-      filename: './database/dev.db3',
+      host: '127.0.0.1',
+      database: 'careforlife',
+      user: process.env.USERNAME,
+      password: process.env.PASSWORD
     },
-    pool: {
-      afterCreate: (conn, done) => {
-        conn.run('PRAGMA foreign_keys = ON', done);
-      },
-    },
-    useNullAsDefault: true,
+    // pool: {
+    //   afterCreate: (conn, done) => {
+    //     conn.run('PRAGMA foreign_keys = ON', done);
+    //   },
+    // },
+    // useNullAsDefault: true,
     migrations: {
       directory: './database/migrations',
     },
@@ -21,16 +24,14 @@ module.exports = {
     }
   },
   production: {
-    client: 'sqlite3',
-    connection: {
-      filename: './database/dev.db3',
-    },
-    pool: {
-      afterCreate: (conn, done) => {
-        conn.run('PRAGMA foreign_keys = ON', done);
-      },
-    },
-    useNullAsDefault: true,
+    client: 'pg',
+    connection: process.env.DB_URL,
+    // pool: {
+    //   afterCreate: (conn, done) => {
+    //     conn.run('PRAGMA foreign_keys = ON', done);
+    //   },
+    // },
+    //useNullAsDefault: true,
     migrations: {
       directory: './database/migrations',
     },

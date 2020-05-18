@@ -1,27 +1,7 @@
 // for registration
 exports.up = function (knex) {
     return knex.schema
-        .createTable('users', tbl => {
-            tbl.increments();
-            tbl.string('username', 50)
-                .notNullable()
-                .unique();
-            tbl.string('password', 250)
-                .notNullable();
-            tbl.integer('zone_id', 50)
-                .unsigned()
-                .references('id')
-                .inTable('zones')
-                .notNullable()
-                .onDelete('CASCADE')
-                .onUpdate('CASCADE')
-            tbl.integer('role_id', 150)
-                .notNullable()
-                .references('id')
-                .inTable('roles')
-                .onDelete('CASCADE')
-                .onUpdate('CASCADE')
-        })
+
         .createTable('communities', tbl => {
             tbl.increments();
             tbl.string('name', 100)
@@ -70,11 +50,37 @@ exports.up = function (knex) {
             tbl.string('name', 100)
                 .notNullable()
         })
+        .createTable('users', tbl => {
+            tbl.increments();
+            tbl.string('username', 50)
+                .notNullable()
+                .unique();
+            tbl.string('password', 250)
+                .notNullable();
+            tbl.integer('zone_id', 50)
+                .unsigned()
+                .references('id')
+                .inTable('zones')
+                .notNullable()
+                .onDelete('CASCADE')
+                .onUpdate('CASCADE')
+            tbl.integer('role_id', 150)
+                .notNullable()
+                .references('id')
+                .inTable('roles')
+                .onDelete('CASCADE')
+                .onUpdate('CASCADE')
+        })
         .createTable('surveys', tbl => {
             tbl.increments();
             tbl.string('name', 100)
                 .notNullable()
             tbl.string('type', 100)
+                .notNullable()
+        })
+        .createTable('questions', tbl => {
+            tbl.increments();
+            tbl.string('question', 100)
                 .notNullable()
         })
         .createTable('survey_questions', tbl => {
@@ -96,11 +102,6 @@ exports.up = function (knex) {
                 .inTable('questions')
                 .onDelete('CASCADE')
                 .onUpdate('CASCADE')
-        })
-        .createTable('questions', tbl => {
-            tbl.increments();
-            tbl.string('question', 100)
-                .notNullable()
         })
         .createTable('responses', tbl => {
             tbl.increments();
@@ -137,11 +138,11 @@ exports.up = function (knex) {
 
 exports.down = function (knex) {
     return knex.schema
-        .dropTableIfExists('users')
         .dropTableIfExists('responses')
-        .dropTableIfExists('questions')
         .dropTableIfExists('survey_questions')
+        .dropTableIfExists('questions')
         .dropTableIfExists('surveys')
+        .dropTableIfExists('users')
         .dropTableIfExists('roles')
         .dropTableIfExists('individuals')
         .dropTableIfExists('families')
